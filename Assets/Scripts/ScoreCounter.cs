@@ -1,36 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-
 public sealed class ScoreCounter : MonoBehaviour
 {
-   public static ScoreCounter Instance { get; private set ;}
+    public static ScoreCounter Instance { get; private set; }
 
+    private int _score;
+    private int _bestScore;
 
-        private int _score ;
+    public int Score
+    {
+        get => _score;
+        set
+        {
+            if (_score == value) return;
 
-        public int Score    
-         {
-                get => _score;
+            _score = value;
 
-                set 
-                {
-                        if (_score == value ) return;
+            if (_score > _bestScore)
+            {
+                _bestScore = _score;
+                PlayerPrefs.SetInt("BestScore", _bestScore); // Сохранение лучшего счета
+            }
 
-                        _score = value ; 
-
-
-                        scoreText.SetText ($"Score = {_score} ");
-
-                }
-
+            UpdateScoreText();
+            UpdateBestScoreText();
         }
+    }
 
-        [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
 
-   
-    private void Awake () => Instance = this;
-   
+    private void Awake()
+    {
+        Instance = this;
+        _bestScore = PlayerPrefs.GetInt("BestScore", 0); // Загрузка лучшего счета
+        UpdateBestScoreText();
+    }
+
+    private void UpdateScoreText()
+    {
+        scoreText.text = $"Score {_score}";
+    }
+
+    private void UpdateBestScoreText()
+    {
+        bestScoreText.text = $"Best Score {_bestScore}";
+    }
 }

@@ -162,6 +162,7 @@ public sealed class Board : MonoBehaviour
                     audioSource.PlayOneShot (collectSound);
 
                     ScoreCounter.Instance.Score +=tile.Item.value * connectedTiles.Count;
+                    
 
                     await deflateSequence.Play()
                                          .AsyncWaitForCompletion();

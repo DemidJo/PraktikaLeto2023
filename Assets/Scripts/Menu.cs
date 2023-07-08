@@ -16,6 +16,10 @@ public class Menu : MonoBehaviour
     {
           Application.LoadLevel("Exit");
     }
+    public void Record ()
+    {
+        Application.LoadLevel("Record");
+    }
     
     
 
